@@ -4,6 +4,12 @@
 #include <atomic>
 #include "DriverBus.hpp"
 #include "Pulse.hpp"
+#include <fcntl.h>
+#include <unistd.h>
+#include <iostream>
+#include <chrono>
+#include <sys/ioctl.h>
+#include <poll.h>
 
 class FlowmeterComms
 {
@@ -16,9 +22,9 @@ public:
     void stop();
 
 private:
-    int Flowmeterpin;
-    std::thread FlowmeterThread;
+    int flowmeterPin;
+    std::thread flowmeterThread;
     std::atomic<bool> running{false};
-    core::ThreadSafeDeque<Pulse>& PulseQueue;
+    core::ThreadSafeDeque<Pulse>& pulseQueue;
     void readPulses();
 };
